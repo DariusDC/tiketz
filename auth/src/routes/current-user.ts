@@ -1,5 +1,5 @@
+import { currentUserMiddleware } from "@dctiketz/common";
 import express, { Request, Response } from "express";
-import { currentUserMiddleware } from "../middlewares/current-user";
 
 const router = express.Router();
 
