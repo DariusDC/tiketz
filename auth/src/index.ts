@@ -5,7 +5,7 @@ const start = async () => {
   console.log("Auth starting up...");
 
   if (!process.env.JWT_KEY) {
-    throw new Error("JWT Key is not set");
+    throw new Error("JWT Key is not set!");
   }
 
   if (!process.env.MONGO_URI) {
