@@ -3,7 +3,7 @@ name: Tests-orders
 on:
   pull_request:
     paths:
-      - "orders/*"
+      - "orders/**"
 
 jobs:
   build:
