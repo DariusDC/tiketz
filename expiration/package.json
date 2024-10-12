@@ -18,10 +18,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@dctiketz/common": "^1.0.11",
+    "@dctiketz/common": "^1.0.13",
     "@types/bull": "^3.15.9",
     "bull": "^4.16.3",
-    "node-nats-streaming": "^0.3.2",
+    "kafkajs": "^2.2.4",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.6.2"
   },
