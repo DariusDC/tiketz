@@ -1,4 +1,4 @@
-# Tiketz
+# Tiketz (Node.js, React.js, Docker, Kubernetes)
 
 Welcome to **Tiketz**! 🎟️
 
@@ -38,6 +38,13 @@ Tiketz comes packed with features to enhance your ticketing experience:
 - **Asynchronous Communication**: Efficiently handles communication between services using NATS Streaming Service.
 
 ## Architecture
+
+![image](https://github.com/user-attachments/assets/c76e251e-c6a8-4b7b-ad88-fbc34f0be91c)
+
+![image](https://github.com/user-attachments/assets/6ecb817f-afa1-42f9-a165-d7f139ed3f04)
+
+![image](https://github.com/user-attachments/assets/f8d6db68-8d8d-4fef-b757-b04d894cb802)
+
 
 At the heart of Tiketz is a microservices architecture, where each component works independently yet cohesively. This design promotes scalability, reliability, and ease of maintenance.
 
@@ -122,3 +129,5 @@ Start by cloning the Tiketz repository to your local machine:
 git clone https://github.com/yourusername/tiketz.git
 cd tiketz
 ```
+
+And before running, from the k8s cli, you should set secret ket values for `JWT_KEY` on `jwt-secret` secret and `STRIPE_KEY` on `stripe-secret`
