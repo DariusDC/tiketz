@@ -126,7 +126,7 @@ Before diving in, make sure you have these tools installed:
 Start by cloning the Tiketz repository to your local machine:
 
 ```bash
-git clone https://github.com/yourusername/tiketz.git
+git clone https://github.com/DariusDC/tiketz.git
 cd tiketz
 ```
 
