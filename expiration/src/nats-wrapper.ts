@@ -1,29 +1,51 @@
-import nats, { Stan } from "node-nats-streaming";
+import { Consumer, Kafka, Producer } from "kafkajs";
 
-class NatsWrapper {
-  private _client?: Stan;
+class KafkaWrapper {
+  private _producer?: Producer;
+  private _consumer?: Consumer;
+  private _client: Kafka;
 
-  get client() {
-    if (!this._client) {
-      throw new Error("Cannot access NATS client before connected");
-    }
-
-    return this._client;
+  constructor() {
+    this._client = new Kafka({
+      clientId: process.env.KAFKA_CLIENT_ID!,
+      brokers: [process.env.KAFKA_BROKERS!],
+    });
   }
 
-  connect(clusterId: string, clientId: string, url: string): Promise<void> {
-    this._client = nats.connect(clusterId, clientId, { url });
+  get producer() {
+    if (!this._producer) {
+      throw new Error("Cannot access producer before connecting to kafka");
+    }
 
-    return new Promise((resolve, reject) => {
-      this.client.on("connect", () => {
-        console.log("Connected to NATS");
-        resolve();
-      });
-      this.client.on("error", (err) => {
-        reject(err);
-      });
-    });
+    return this._producer;
+  }
+
+  get consumer() {
+    if (!this._consumer) {
+      throw new Error("Cannot access consumer before connecting to kafka");
+    }
+
+    return this._consumer;
+  }
+
+  async connect(): Promise<void> {
+    this._producer = this._client.producer();
+    await this._producer.connect();
+
+    console.log("Connected to kafka with producer");
+  }
+
+  async disconnect(): Promise<void> {
+    if (this._producer) {
+      await this._producer.disconnect();
+    }
+
+    if (this._consumer) {
+      await this._consumer.disconnect();
+    }
+
+    console.log("Disconnected from kafka");
   }
 }
 
-export const natsWrapper = new NatsWrapper();
+export const kafkaWrapper = new KafkaWrapper();

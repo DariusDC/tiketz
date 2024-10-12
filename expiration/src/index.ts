@@ -1,33 +1,18 @@
 import { OrderCreatedListener } from "./events/listeners/order-created-listener";
-import { natsWrapper } from "./nats-wrapper";
+import { kafkaWrapper } from "./nats-wrapper";
 
 const start = async () => {
-  if (!process.env.NATS_CLIENT_ID) {
-    throw new Error("NATS_CLIENT_ID must be defined");
+  if (!process.env.KAFKA_BROKERS) {
+    throw new Error("KAFKA_BROKERS must be defined");
   }
-  if (!process.env.NATS_URL) {
-    throw new Error("NATS_URL must be defined");
-  }
-  if (!process.env.NATS_CLUSTER_ID) {
-    throw new Error("NATS_CLUSTER_ID must be defined");
+  if (!process.env.KAFKA_CLIENT_ID) {
+    throw new Error("KAFKA_CLIENT_ID must be defined");
   }
 
   try {
-    await natsWrapper.connect(
-      process.env.NATS_CLUSTER_ID,
-      process.env.NATS_CLIENT_ID,
-      process.env.NATS_URL
-    );
+    await kafkaWrapper.connect();
 
-    natsWrapper.client.on("close", () => {
-      console.log("Closing NATS client");
-      process.exit();
-    });
-
-    process.on("SIGINT", () => natsWrapper.client.close());
-    process.on("SIGTERM", () => natsWrapper.client.close());
-
-    new OrderCreatedListener(natsWrapper.client).listen();
+    new OrderCreatedListener(kafkaWrapper.client).listen();
   } catch (e) {
     console.error(e);
   }

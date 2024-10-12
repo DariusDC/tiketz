@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+        - name: kafka
+          image: bitnami/kafka:latest
+          ports:
+            - containerPort: 9092
+          env:
+            - name: KAFKA_BROKER_ID
+              value: "0"
+            - name: KAFKA_ZOOKEEPER_CONNECT
+              value: "zookeeper-srv:2181" # Pointing to the Zookeeper service
+            - name: KAFKA_LISTENERS
+              value: "PLAINTEXT://:9092" # Kafka will listen on this port
+            - name: ALLOW_PLAINTEXT_LISTENER
+              value: "yes" # Allow plaintext connection for simplicity
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-srv
+spec:
+  selector:
+    app: kafka
+  ports:
+    - port: 9092
+      targetPort: 9092
+      name: kafka
+  type: ClusterIP
